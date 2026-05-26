@@ -732,18 +732,28 @@
 
     .stack-display {
       display: flex;
-      gap: .4rem;
-      flex-wrap: wrap;
+      flex-direction: column;
+      gap: .25rem;
       align-items: center;
+      justify-content: flex-end;
+      min-height: 120px;
+      padding: .5rem;
+      border: 1px solid rgba(124, 108, 255, 0.3);
+      border-top: none;
+      border-radius: 0 0 8px 8px;
+      background: rgba(0, 0, 0, 0.15);
     }
 
     .stack-item {
       font-family: 'IBM Plex Mono';
-      font-size: .8rem;
-      padding: .3rem .7rem;
-      background: rgba(124, 108, 255, 0.15);
+      font-size: .85rem;
+      font-weight: 700;
+      width: 100%;
+      text-align: center;
+      padding: .4rem .7rem;
+      background: rgba(124, 108, 255, 0.2);
       border: 1px solid var(--accent2);
-      color: var(--accent2);
+      color: #fff;
     }
   </style>
 </head>
@@ -1570,7 +1580,7 @@
           </div>
 
           <div style="display:flex;gap:.75rem;margin:1rem 0">
-            <button class="sim-btn" onclick="simStep()">▶ Siguiente Paso</button>
+            <button class="sim-btn" id="sim-btn-play" onclick="simPlay()">▶ Iniciar Simulación</button>
             <button class="sim-btn reset" onclick="simReset()">↺ Reiniciar</button>
           </div>
 
@@ -2344,8 +2354,38 @@
     const graph = { A: ['B', 'C'], B: ['D'], C: ['D'], D: [] };
     const nodes = ['A', 'B', 'C', 'D'];
     let simState = null;
+    let simTimer = null;
+
+    function simPlay() {
+      if (!simState) simReset();
+      const btn = document.getElementById('sim-btn-play');
+      
+      if (simTimer) {
+        clearInterval(simTimer);
+        simTimer = null;
+        if(btn) btn.innerHTML = '▶ Continuar Simulación';
+      } else {
+        if(btn) btn.innerHTML = '⏸ Pausar Simulación';
+        simTimer = setInterval(() => {
+          if (simState.stepIdx >= simSteps.length) {
+            clearInterval(simTimer);
+            simTimer = null;
+            if(btn) btn.innerHTML = '▶ Iniciar Simulación';
+            return;
+          }
+          simSteps[simState.stepIdx++]();
+        }, 800);
+      }
+    }
 
     function simReset() {
+      if (simTimer) {
+        clearInterval(simTimer);
+        simTimer = null;
+      }
+      const btn = document.getElementById('sim-btn-play');
+      if (btn) btn.innerHTML = '▶ Iniciar Simulación';
+
       simState = {
         stepIdx: 0,
         visited: new Set(),
@@ -2442,18 +2482,14 @@
       () => addSimLog('  D ya fue visitado, se omite', 'ok'),
 
       () => addSimLog('\n// Desapilando para obtener orden final...', 'warn'),
-      () => { simState.order.push('A'); renderSimResult(); addSimLog('  ← desapilando: A', 'ok'); },
-      () => { simState.order.push('C'); renderSimResult(); addSimLog('  ← desapilando: C', 'ok'); },
-      () => { simState.order.push('B'); renderSimResult(); addSimLog('  ← desapilando: B', 'ok'); },
-      () => { simState.order.push('D'); renderSimResult(); addSimLog('  ← desapilando: D', 'ok'); },
+      () => { simState.stack.pop(); simState.order.push('A'); renderSimStack(); renderSimResult(); addSimLog('  ← desapilando: A', 'ok'); },
+      () => { simState.stack.pop(); simState.order.push('C'); renderSimStack(); renderSimResult(); addSimLog('  ← desapilando: C', 'ok'); },
+      () => { simState.stack.pop(); simState.order.push('B'); renderSimStack(); renderSimResult(); addSimLog('  ← desapilando: B', 'ok'); },
+      () => { simState.stack.pop(); simState.order.push('D'); renderSimStack(); renderSimResult(); addSimLog('  ← desapilando: D', 'ok'); },
       () => addSimLog('\n✓ Orden topológico completo: [A → C → B → D] ∎', 'ok')
     ];
 
-    function simStep() {
-      if (!simState) simReset();
-      if (simState.stepIdx >= simSteps.length) return;
-      simSteps[simState.stepIdx++]();
-    }
+
 
     simReset();
     updateUI();

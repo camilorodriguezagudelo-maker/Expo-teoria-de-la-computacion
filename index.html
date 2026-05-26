@@ -1563,20 +1563,34 @@
 
       <div class="two-col" style="gap:2rem">
         <div>
-          <p style="font-size:.82rem;color:var(--muted);margin-bottom:1.2rem">Grafo de ejemplo: A→B, B→C, B→D, C→D</p>
-          <div id="sim-graph">
-            <div class="sim-node unvisited" id="sn-A">A</div>
-            <div style="color:var(--muted);font-size:1.2rem">→</div>
-            <div class="sim-node unvisited" id="sn-B">B</div>
-            <div style="color:var(--muted);font-size:1.2rem">→</div>
-            <div class="sim-node unvisited" id="sn-D">D</div>
-            <div style="width:100%;display:flex;align-items:center;justify-content:center;gap:1rem;margin-top:.5rem">
-              <div style="color:var(--muted);font-size:.8rem;margin-left:3.5rem">↓</div>
-              <div style="color:var(--muted);font-size:.8rem;margin-left:2.8rem">↗</div>
-            </div>
-            <div style="width:100%;display:flex;justify-content:center;margin-left:-1rem">
-              <div class="sim-node unvisited" id="sn-C">C</div>
-            </div>
+          <p style="font-size:.82rem;color:var(--muted);margin-bottom:1.2rem">Pensum (6 materias): Lógica → Prog1 → ED → Redes. Y Prog1 → BD. ED y BD → Ing. Softw.</p>
+          <div id="sim-graph" style="position:relative; width:100%; height:230px; background:rgba(0,0,0,0.15); border-radius:8px; border:1px solid rgba(255,255,255,0.05);">
+            <svg width="100%" height="100%" style="position:absolute; top:0; left:0; pointer-events:none;">
+              <defs>
+                <marker id="s8-arr" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+                  <path d="M0,0 L0,6 L6,3 z" fill="rgba(255,255,255,0.2)"/>
+                </marker>
+              </defs>
+              <!-- Lógica -> Prog1 -->
+              <line x1="18%" y1="50%" x2="27%" y2="50%" stroke="rgba(255,255,255,0.2)" stroke-width="2" marker-end="url(#s8-arr)"/>
+              <!-- Prog1 -> ED -->
+              <line x1="45%" y1="45%" x2="54%" y2="28%" stroke="rgba(255,255,255,0.2)" stroke-width="2" marker-end="url(#s8-arr)"/>
+              <!-- Prog1 -> BD -->
+              <line x1="45%" y1="55%" x2="54%" y2="72%" stroke="rgba(255,255,255,0.2)" stroke-width="2" marker-end="url(#s8-arr)"/>
+              <!-- ED -> Redes -->
+              <line x1="72%" y1="20%" x2="81%" y2="20%" stroke="rgba(255,255,255,0.2)" stroke-width="2" marker-end="url(#s8-arr)"/>
+              <!-- ED -> Softw -->
+              <line x1="72%" y1="28%" x2="82%" y2="72%" stroke="rgba(255,255,255,0.2)" stroke-width="2" marker-end="url(#s8-arr)"/>
+              <!-- BD -> Softw -->
+              <line x1="72%" y1="80%" x2="81%" y2="80%" stroke="rgba(255,255,255,0.2)" stroke-width="2" marker-end="url(#s8-arr)"/>
+            </svg>
+
+            <div class="sim-node unvisited" id="sn-Logica" style="position:absolute; top:calc(50% - 20px); left:2%; width:16%; height:40px; border-radius:6px; font-size:.6rem; padding:0">Lógica</div>
+            <div class="sim-node unvisited" id="sn-Prog1" style="position:absolute; top:calc(50% - 20px); left:29%; width:16%; height:40px; border-radius:6px; font-size:.6rem; padding:0">Prog 1</div>
+            <div class="sim-node unvisited" id="sn-ED" style="position:absolute; top:calc(20% - 20px); left:56%; width:16%; height:40px; border-radius:6px; font-size:.6rem; padding:0">Estr. Datos</div>
+            <div class="sim-node unvisited" id="sn-BD" style="position:absolute; top:calc(80% - 20px); left:56%; width:16%; height:40px; border-radius:6px; font-size:.6rem; padding:0">Bases Datos</div>
+            <div class="sim-node unvisited" id="sn-Redes" style="position:absolute; top:calc(20% - 20px); left:83%; width:16%; height:40px; border-radius:6px; font-size:.6rem; padding:0">Redes</div>
+            <div class="sim-node unvisited" id="sn-Softw" style="position:absolute; top:calc(80% - 20px); left:83%; width:16%; height:40px; border-radius:6px; font-size:.6rem; padding:0">Ing. Softw</div>
           </div>
 
           <div style="display:flex;gap:.75rem;margin:1rem 0">
@@ -2351,8 +2365,15 @@
     // ── SIMULATOR ──────────────────────────────────────────────
     // Versión corregida: cada vértice se visita y se apila una sola vez.
     // Grafo usado en la demostración: A→B, A→C, B→D, C→D
-    const graph = { A: ['B', 'C'], B: ['D'], C: ['D'], D: [] };
-    const nodes = ['A', 'B', 'C', 'D'];
+    const graph = {
+      Logica: ['Prog1'],
+      Prog1: ['ED', 'BD'],
+      ED: ['Redes', 'Softw'],
+      BD: ['Softw'],
+      Redes: [],
+      Softw: []
+    };
+    const nodes = ['Logica', 'Prog1', 'ED', 'BD', 'Redes', 'Softw'];
     let simState = null;
     let simTimer = null;
 
@@ -2403,7 +2424,7 @@
       document.getElementById('sim-stack').innerHTML = '<span style="color:var(--muted);font-size:.75rem;font-family:\'IBM Plex Mono\'">vacía</span>';
       document.getElementById('sim-result').textContent = '[ esperando... ]';
       document.getElementById('sim-result').style.color = 'var(--muted)';
-      document.getElementById('sim-log').innerHTML = '<span class="ok">// Presiona "Siguiente Paso" para iniciar</span>';
+      document.getElementById('sim-log').innerHTML = '<span class="ok">// Presiona "Iniciar Simulación" para comenzar</span>';
     }
 
     function addSimLog(msg, cls = '') {
@@ -2424,7 +2445,7 @@
         return;
       }
 
-      // Mostrar la pila con el tope a la izquierda.
+      // Mostrar la pila con el tope a la izquierda (visualmente arriba por flex-column)
       stackEl.innerHTML = simState.stack
         .slice()
         .reverse()
@@ -2448,7 +2469,6 @@
     function finishNode(n) {
       simState.inProcess.delete(n);
 
-      // Protección extra: un nodo nunca debe apilarse dos veces.
       if (!simState.stack.includes(n)) {
         simState.stack.push(n);
       }
@@ -2458,38 +2478,49 @@
       addSimLog(`✓ ${n} finalizado → apilado`, 'ok');
     }
 
-    // Secuencia correcta del DFS para el grafo A→B, A→C, B→D, C→D.
     const simSteps = [
-      () => addSimLog('\n// Procesando nodo A...', ''),
-      () => enterNode('A'),
-      () => addSimLog('  ↳ visitando vecino B...', ''),
-      () => enterNode('B'),
-      () => addSimLog('  ↳ visitando vecino D...', ''),
-      () => enterNode('D'),
-      () => finishNode('D'),
-      () => finishNode('B'),
-      () => addSimLog('  ↳ visitando vecino C...', ''),
-      () => enterNode('C'),
-      () => addSimLog('  ↳ D ya fue visitado; no se vuelve a ejecutar DFS(D)', 'ok'),
-      () => finishNode('C'),
-      () => finishNode('A'),
+      () => addSimLog('\n// Procesando materia Lógica...', ''),
+      () => enterNode('Logica'),
+      () => addSimLog('  ↳ visitando correquisito Prog1...', ''),
+      () => enterNode('Prog1'),
+      
+      () => addSimLog('  ↳ visitando correquisito Estr. Datos...', ''),
+      () => enterNode('ED'),
+      
+      () => addSimLog('  ↳ visitando correquisito Redes...', ''),
+      () => enterNode('Redes'),
+      () => finishNode('Redes'),
+      
+      () => addSimLog('  ↳ visitando correquisito Softw...', ''),
+      () => enterNode('Softw'),
+      () => finishNode('Softw'),
+      
+      () => finishNode('ED'),
+      
+      () => addSimLog('  ↳ visitando correquisito Bases Datos...', ''),
+      () => enterNode('BD'),
+      () => addSimLog('  ↳ Softw ya fue visitado; se omite DFS(Softw)', 'ok'),
+      () => finishNode('BD'),
+      
+      () => finishNode('Prog1'),
+      () => finishNode('Logica'),
 
-      () => addSimLog('\n// Procesando nodo B...', ''),
-      () => addSimLog('  B ya fue visitado, se omite', 'ok'),
-      () => addSimLog('\n// Procesando nodo C...', ''),
-      () => addSimLog('  C ya fue visitado, se omite', 'ok'),
-      () => addSimLog('\n// Procesando nodo D...', ''),
-      () => addSimLog('  D ya fue visitado, se omite', 'ok'),
+      () => addSimLog('\n// Procesando materias restantes...', ''),
+      () => addSimLog('  Prog1 ya procesado, se omite', 'ok'),
+      () => addSimLog('  ED ya procesado, se omite', 'ok'),
+      () => addSimLog('  BD ya procesado, se omite', 'ok'),
+      () => addSimLog('  Redes ya procesado, se omite', 'ok'),
+      () => addSimLog('  Softw ya procesado, se omite', 'ok'),
 
-      () => addSimLog('\n// Desapilando para obtener orden final...', 'warn'),
-      () => { simState.stack.pop(); simState.order.push('A'); renderSimStack(); renderSimResult(); addSimLog('  ← desapilando: A', 'ok'); },
-      () => { simState.stack.pop(); simState.order.push('C'); renderSimStack(); renderSimResult(); addSimLog('  ← desapilando: C', 'ok'); },
-      () => { simState.stack.pop(); simState.order.push('B'); renderSimStack(); renderSimResult(); addSimLog('  ← desapilando: B', 'ok'); },
-      () => { simState.stack.pop(); simState.order.push('D'); renderSimStack(); renderSimResult(); addSimLog('  ← desapilando: D', 'ok'); },
-      () => addSimLog('\n✓ Orden topológico completo: [A → C → B → D] ∎', 'ok')
+      () => addSimLog('\n// Desapilando para obtener ruta final...', 'warn'),
+      () => { simState.stack.pop(); simState.order.push('Logica'); renderSimStack(); renderSimResult(); addSimLog('  ← desapilando: Lógica', 'ok'); },
+      () => { simState.stack.pop(); simState.order.push('Prog1'); renderSimStack(); renderSimResult(); addSimLog('  ← desapilando: Prog1', 'ok'); },
+      () => { simState.stack.pop(); simState.order.push('BD'); renderSimStack(); renderSimResult(); addSimLog('  ← desapilando: Bases Datos', 'ok'); },
+      () => { simState.stack.pop(); simState.order.push('ED'); renderSimStack(); renderSimResult(); addSimLog('  ← desapilando: Estr. Datos', 'ok'); },
+      () => { simState.stack.pop(); simState.order.push('Softw'); renderSimStack(); renderSimResult(); addSimLog('  ← desapilando: Softw', 'ok'); },
+      () => { simState.stack.pop(); simState.order.push('Redes'); renderSimStack(); renderSimResult(); addSimLog('  ← desapilando: Redes', 'ok'); },
+      () => addSimLog('\n✓ Ruta de estudio topológica: [Lógica → Prog1 → BD → ED → Softw → Redes] ∎', 'ok')
     ];
-
-
 
     simReset();
     updateUI();

@@ -1394,6 +1394,79 @@
           <span class="kw">end procedure</span>
         </div>
         <div>
+          <div style="margin-bottom:1.5rem; padding:1rem; background:rgba(0,0,0,0.15); border-radius:8px; border:1px solid rgba(255,255,255,0.05); text-align:center;">
+            <style>
+              @keyframes s7-iter1 { 0%, 40% { opacity: 1; } 45%, 100% { opacity: 0; } }
+              @keyframes s7-iter2 { 0%, 45% { opacity: 0; } 50%, 90% { opacity: 1; } 95%, 100% { opacity: 0; } }
+              @keyframes s7-pulse-red { 0%, 100% { filter: none; } 50% { filter: drop-shadow(0 0 5px #ff4c4c); } }
+              @keyframes s7-pulse-green { 0%, 100% { filter: none; } 50% { filter: drop-shadow(0 0 5px var(--accent)); } }
+
+              .s7-step1 { animation: s7-iter1 6s infinite; }
+              .s7-step2 { animation: s7-iter2 6s infinite; }
+              .s7-glow-red { animation: s7-pulse-red 3s infinite; }
+              .s7-glow-green { animation: s7-pulse-green 3s infinite; }
+            </style>
+            <svg viewBox="0 0 280 100" width="100%" height="100">
+              <defs>
+                <marker id="s7-arr2" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+                  <path d="M0,0 L0,6 L6,3 z" fill="var(--muted)"/>
+                </marker>
+                <marker id="s7-arr-red" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+                  <path d="M0,0 L0,6 L6,3 z" fill="#ff4c4c"/>
+                </marker>
+                <marker id="s7-arr-green" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+                  <path d="M0,0 L0,6 L6,3 z" fill="var(--accent)"/>
+                </marker>
+              </defs>
+
+              <!-- Sets box -->
+              <rect x="150" y="5" width="125" height="35" rx="4" fill="rgba(0,0,0,0.2)" stroke="var(--muted)" stroke-dasharray="2,2"/>
+              <text x="155" y="18" fill="var(--muted)" font-size="9" font-family="IBM Plex Mono">enProceso: {u1, v}</text>
+              <text x="155" y="32" fill="var(--muted)" font-size="9" font-family="IBM Plex Mono">visitado:  {u1, v}</text>
+
+              <!-- Base Edges (muted, shown behind animation) -->
+              <line x1="61" y1="42" x2="79" y2="28" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#s7-arr2)"/>
+              <line x1="63" y1="54" x2="107" y2="66" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#s7-arr2)"/>
+
+              <!-- Node v -->
+              <circle cx="50" cy="50" r="14" fill="rgba(0,229,160,0.2)" stroke="var(--accent3)" stroke-width="2" filter="drop-shadow(0 0 3px var(--accent3))"/>
+              <text x="50" y="54" fill="#fff" font-size="11" font-family="IBM Plex Mono" text-anchor="middle">v</text>
+
+              <!-- Node u1 (in process) -->
+              <circle cx="90" cy="20" r="14" fill="rgba(0,229,160,0.2)" stroke="var(--accent3)" stroke-width="2"/>
+              <text x="90" y="24" fill="#fff" font-size="11" font-family="IBM Plex Mono" text-anchor="middle">u1</text>
+              
+              <!-- Node u2 (empty) -->
+              <circle cx="120" cy="70" r="14" fill="var(--bg)" stroke="var(--muted)" stroke-width="1.5"/>
+              <text x="120" y="74" fill="var(--muted)" font-size="11" font-family="IBM Plex Mono" text-anchor="middle">u2</text>
+
+              <!-- Action text box -->
+              <rect x="150" y="50" width="125" height="40" rx="4" fill="rgba(0,0,0,0.3)" stroke="rgba(255,255,255,0.05)"/>
+
+              <!-- Animations -->
+              <!-- Step 1: u1 (Cycle) -->
+              <g class="s7-step1">
+                <line x1="61" y1="42" x2="79" y2="28" stroke="#ff4c4c" stroke-width="2" marker-end="url(#s7-arr-red)" class="s7-glow-red"/>
+                <circle cx="90" cy="20" r="18" fill="none" stroke="#ff4c4c" stroke-width="2" class="s7-glow-red"/>
+                
+                <text x="212" y="65" fill="#ff4c4c" font-size="9" font-family="IBM Plex Mono" text-anchor="middle" font-weight="bold">u1 ∈ enProceso</text>
+                <text x="212" y="80" fill="#ff4c4c" font-size="10" font-family="IBM Plex Mono" text-anchor="middle" font-weight="bold">¡CICLO DETECTADO!</text>
+              </g>
+              
+              <!-- Step 2: u2 (Recursion) -->
+              <g class="s7-step2">
+                <line x1="63" y1="54" x2="107" y2="66" stroke="var(--accent)" stroke-width="2" marker-end="url(#s7-arr-green)" class="s7-glow-green"/>
+                <circle cx="120" cy="70" r="18" fill="none" stroke="var(--accent)" stroke-width="2" class="s7-glow-green"/>
+                
+                <text x="212" y="65" fill="var(--accent)" font-size="9" font-family="IBM Plex Mono" text-anchor="middle" font-weight="bold">u2 ∉ visitado</text>
+                <text x="212" y="80" fill="var(--accent)" font-size="10" font-family="IBM Plex Mono" text-anchor="middle" font-weight="bold">DFS(u2)</text>
+              </g>
+            </svg>
+            <p style="font-family:'IBM Plex Mono'; font-size:0.65rem; color:var(--muted); text-transform:uppercase; margin-top:-0.5rem; letter-spacing:0.05em;">
+              Iteración: Verificando Vecinos (Ciclo vs Recursión)
+            </p>
+          </div>
+
           <div class="step-row">
             <div class="step-num">01</div>
             <div class="step-content"><strong style="color:var(--accent)">Marcado doble:</strong> v entra a
@@ -1416,6 +1489,56 @@
             <div class="step-content"><strong style="color:var(--gold)">Post-orden:</strong> al terminar de explorar
               todos los vecinos, v sale de <em>enProceso</em> y se apila. Esto asegura el orden topológico correcto.
             </div>
+          </div>
+
+          <div style="margin-top:1rem; padding:1rem; background:rgba(0,0,0,0.15); border-radius:8px; border:1px solid rgba(255,255,255,0.05); text-align:center;">
+            <style>
+              @keyframes s7-out-ring {
+                0%, 20% { stroke: var(--accent3); stroke-width: 2px; filter: drop-shadow(0 0 4px var(--accent3)); opacity: 1; }
+                25%, 100% { stroke: var(--accent3); stroke-width: 2px; filter: drop-shadow(0 0 4px var(--accent3)); opacity: 0; }
+              }
+              @keyframes s7-out-push {
+                0%, 35% { transform: translate(0, 0); opacity: 1; }
+                45% { transform: translate(0, -30px); opacity: 1; }
+                65% { transform: translate(150px, -30px); opacity: 1; }
+                75%, 95% { transform: translate(150px, 15px); opacity: 1; }
+                100% { transform: translate(150px, 15px); opacity: 0; }
+              }
+              @keyframes s7-out-color {
+                0%, 35% { fill: rgba(0,229,160,0.4); stroke: var(--accent); }
+                45%, 100% { fill: rgba(124,108,255,0.4); stroke: var(--accent2); }
+              }
+              @keyframes s7-out-text1 {
+                0%, 25% { opacity: 1; }
+                30%, 100% { opacity: 0; }
+              }
+              @keyframes s7-out-text2 {
+                0%, 35% { opacity: 0; }
+                45%, 95% { opacity: 1; }
+                100% { opacity: 0; }
+              }
+              .s7-out-ring-el { animation: s7-out-ring 4s infinite; }
+              .s7-out-push-el { animation: s7-out-push 4s ease-in-out infinite; transform-origin: center; transform-box: fill-box; }
+              .s7-out-color-el { animation: s7-out-color 4s infinite; }
+            </style>
+            <svg viewBox="0 0 280 75" width="100%" height="75">
+              <text x="50" y="15" fill="var(--muted)" font-size="9" font-family="IBM Plex Mono" text-anchor="middle">DFS(v)</text>
+              
+              <path d="M 180,10 L 180,70 L 220,70 L 220,10" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="2" stroke-linecap="round"/>
+              <text x="200" y="15" fill="var(--muted)" font-size="9" font-family="IBM Plex Mono" text-anchor="middle">Pila</text>
+              
+              <g class="s7-out-push-el">
+                <rect x="35" y="30" width="30" height="20" rx="2" stroke-width="1.5" class="s7-out-color-el"/>
+                <rect x="32" y="27" width="36" height="26" rx="4" fill="none" class="s7-out-ring-el"/>
+                <text x="50" y="44" fill="#fff" font-size="12" font-family="IBM Plex Mono" text-anchor="middle" font-weight="bold">v</text>
+              </g>
+              
+              <text x="115" y="40" fill="var(--accent3)" font-size="10" font-family="IBM Plex Mono" text-anchor="middle" style="animation: s7-out-text1 4s infinite; font-weight:bold;">remover(v)</text>
+              <text x="115" y="40" fill="var(--accent2)" font-size="10" font-family="IBM Plex Mono" text-anchor="middle" style="animation: s7-out-text2 4s infinite; font-weight:bold;">apilar(v)</text>
+            </svg>
+            <p style="font-family:'IBM Plex Mono'; font-size:0.65rem; color:var(--muted); text-transform:uppercase; margin-top:0.2rem; letter-spacing:0.05em;">
+              Animación: Fin de DFS(v) y Apilado LIFO
+            </p>
           </div>
         </div>
       </div>

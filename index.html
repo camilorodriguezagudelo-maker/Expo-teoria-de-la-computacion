@@ -1225,11 +1225,134 @@
             <p>Recorre cada vértice no visitado. Para cada uno lanza un <code
                 style="color:var(--accent)">DFS-Topológico</code> que procesará recursivamente sus descendientes antes
               de apilarlo.</p>
+            
+            <div style="margin-top:1.5rem; text-align:center; position:relative;">
+              <style>
+                @keyframes s6-iter1 { 0%, 20% { opacity: 1; } 25%, 100% { opacity: 0; } }
+                @keyframes s6-iter2 { 0%, 20% { opacity: 0; } 25%, 45% { opacity: 1; } 50%, 100% { opacity: 0; } }
+                @keyframes s6-iter3 { 0%, 45% { opacity: 0; } 50%, 90% { opacity: 1; } 95%, 100% { opacity: 0; } }
+                
+                .s6-step1 { animation: s6-iter1 6s infinite; }
+                .s6-step2 { animation: s6-iter2 6s infinite; }
+                .s6-step3 { animation: s6-iter3 6s infinite; }
+              </style>
+              <svg viewBox="0 0 280 85" width="100%" height="85">
+                <defs>
+                  <marker id="s6-arr-graph" markerWidth="5" markerHeight="5" refX="4.5" refY="2.5" orient="auto">
+                    <path d="M0,0 L0,5 L5,2.5 z" fill="var(--muted)"/>
+                  </marker>
+                </defs>
+
+                <!-- Visitado Set Box (Right) -->
+                <rect x="140" y="5" width="130" height="40" rx="4" fill="rgba(0,0,0,0.2)" stroke="var(--muted)" stroke-dasharray="4,2"/>
+                <text x="205" y="20" fill="var(--muted)" font-size="10" font-family="IBM Plex Mono" text-anchor="middle">Visitado:</text>
+                <text x="205" y="38" fill="var(--muted)" font-size="14" font-family="IBM Plex Mono" text-anchor="middle" font-weight="bold">{1, 2}</text>
+
+                <!-- Action Box (Right, below) -->
+                <rect x="140" y="55" width="130" height="25" rx="4" fill="rgba(0,0,0,0.3)" stroke="rgba(255,255,255,0.05)"/>
+
+                <!-- Graph Label -->
+                <text x="60" y="8" fill="var(--muted)" font-size="8" font-family="IBM Plex Mono" text-anchor="middle" opacity="0.6">GRAFO G=(V,E)</text>
+
+                <!-- Graph Edges -->
+                <line x1="41" y1="37" x2="76" y2="23" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#s6-arr-graph)"/>
+                <line x1="41" y1="47" x2="76" y2="61" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#s6-arr-graph)"/>
+                <line x1="90" y1="29" x2="90" y2="52" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#s6-arr-graph)"/>
+
+                <!-- Graph Nodes -->
+                <circle cx="30" cy="42" r="12" fill="var(--bg)" stroke="var(--muted)" stroke-width="1.5"/>
+                <text x="30" y="46" fill="var(--muted)" font-size="11" font-family="IBM Plex Mono" text-anchor="middle">1</text>
+
+                <circle cx="90" cy="17" r="12" fill="var(--bg)" stroke="var(--muted)" stroke-width="1.5"/>
+                <text x="90" y="21" fill="var(--muted)" font-size="11" font-family="IBM Plex Mono" text-anchor="middle">2</text>
+
+                <circle cx="90" cy="67" r="12" fill="var(--bg)" stroke="var(--muted)" stroke-width="1.5"/>
+                <text x="90" y="71" fill="var(--muted)" font-size="11" font-family="IBM Plex Mono" text-anchor="middle">3</text>
+
+                <!-- Step 1 Animation -->
+                <g class="s6-step1">
+                  <circle cx="30" cy="42" r="16" fill="none" stroke="var(--accent3)" stroke-width="2"/>
+                  <text x="205" y="72" fill="var(--accent3)" font-size="10" font-family="IBM Plex Mono" text-anchor="middle" font-weight="bold">1 ∈ Vis → IGNORAR</text>
+                </g>
+
+                <!-- Step 2 Animation -->
+                <g class="s6-step2">
+                  <circle cx="90" cy="17" r="16" fill="none" stroke="var(--accent3)" stroke-width="2"/>
+                  <text x="205" y="72" fill="var(--accent3)" font-size="10" font-family="IBM Plex Mono" text-anchor="middle" font-weight="bold">2 ∈ Vis → IGNORAR</text>
+                </g>
+
+                <!-- Step 3 Animation -->
+                <g class="s6-step3">
+                  <circle cx="90" cy="67" r="16" fill="rgba(0,229,160,0.2)" stroke="var(--accent)" stroke-width="2" filter="drop-shadow(0 0 4px var(--accent))"/>
+                  <text x="205" y="72" fill="var(--accent)" font-size="10" font-family="IBM Plex Mono" text-anchor="middle" font-weight="bold">3 ∉ Vis → DFS(3)</text>
+                </g>
+              </svg>
+              <p style="font-family:'IBM Plex Mono'; font-size:0.65rem; color:var(--muted); text-transform:uppercase; margin-top:0.2rem; letter-spacing:0.05em;">
+                Animación: Iteración "Para cada v" en el Grafo
+              </p>
+            </div>
           </div>
           <div class="card card-accent2">
             <h3>Fase 2 — Inversión LIFO</h3>
             <p>La pila contiene el orden <em>inverso</em>. Al desapilar (LIFO), el resultado es el ordenamiento
               topológico correcto: los nodos sin dependencias quedan primero.</p>
+            
+            <div style="margin-top:1.5rem; text-align:center; position:relative;">
+              <style>
+                @keyframes s6-pop {
+                  0%, 15% { transform: translate(0, 0); opacity: 1; }
+                  35% { transform: translate(0, -35px); opacity: 1; }
+                  60% { transform: translate(165px, -35px); opacity: 1; }
+                  74% { transform: translate(165px, 15px); opacity: 1; }
+                  75%, 100% { transform: translate(165px, 15px); opacity: 0; }
+                }
+                @keyframes s6-appear {
+                  0%, 74% { opacity: 0; transform: scale(0.8); }
+                  75%, 90% { opacity: 1; transform: scale(1.1); }
+                  100% { opacity: 1; transform: scale(1); }
+                }
+                .s6-pop-el { animation: s6-pop 2.5s ease-in-out infinite; }
+                .s6-appear-el { animation: s6-appear 2.5s ease-in-out infinite; transform-origin: center; transform-box: fill-box; }
+              </style>
+              <svg viewBox="0 0 280 80" width="100%" height="80">
+                <defs>
+                  <marker id="s6-arr" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+                    <path d="M0,0 L0,6 L6,3 z" fill="var(--muted)"/>
+                  </marker>
+                </defs>
+                <!-- Stack container -->
+                <path d="M 40,15 L 40,75 L 85,75 L 85,15" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="2" stroke-linecap="round"/>
+                
+                <!-- Static items in stack -->
+                <rect x="45" y="50" width="35" height="20" rx="3" fill="rgba(124,108,255,0.2)" stroke="var(--accent2)" stroke-width="1.5"/>
+                <text x="62.5" y="64" fill="var(--accent2)" font-size="12" font-family="IBM Plex Mono" text-anchor="middle">A</text>
+                
+                <!-- Moving item -->
+                <g class="s6-pop-el">
+                  <rect x="45" y="25" width="35" height="20" rx="3" fill="rgba(124,108,255,0.4)" stroke="var(--accent2)" stroke-width="1.5"/>
+                  <text x="62.5" y="39" fill="#fff" font-size="12" font-family="IBM Plex Mono" text-anchor="middle" font-weight="bold">B</text>
+                </g>
+
+                <!-- Arrow -->
+                <path d="M 90,45 Q 130,20 160,35" fill="none" stroke="var(--muted)" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#s6-arr)"/>
+                
+                <!-- Array container -->
+                <rect x="155" y="35" width="100" height="30" rx="4" fill="rgba(0,0,0,0.3)" stroke="rgba(255,255,255,0.1)" stroke-width="1.5"/>
+                
+                <!-- Static items in array -->
+                <rect x="165" y="40" width="35" height="20" rx="2" fill="rgba(0,229,160,0.15)" stroke="var(--accent)" stroke-width="1"/>
+                <text x="182.5" y="54" fill="var(--accent)" font-size="11" font-family="IBM Plex Mono" text-anchor="middle">C</text>
+                
+                <!-- Appearing item in array -->
+                <g class="s6-appear-el">
+                  <rect x="210" y="40" width="35" height="20" rx="2" fill="rgba(0,229,160,0.3)" stroke="var(--accent)" stroke-width="1.5"/>
+                  <text x="227.5" y="54" fill="#fff" font-size="11" font-family="IBM Plex Mono" text-anchor="middle" font-weight="bold">B</text>
+                </g>
+              </svg>
+              <p style="font-family:'IBM Plex Mono'; font-size:0.65rem; color:var(--muted); text-transform:uppercase; margin-top:-0.5rem; letter-spacing:0.05em;">
+                Animación: LIFO → Orden Topológico
+              </p>
+            </div>
           </div>
           <div
             style="margin-top:1rem;padding:1rem;background:rgba(0,229,160,0.05);border:1px solid rgba(0,229,160,0.2)">

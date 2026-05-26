@@ -2421,9 +2421,8 @@
             <td><strong style="color:var(--accent2)">No visitado</strong><br><span
                 style="font-family:'IBM Plex Mono';font-size:.7rem">u ∉ visitado</span></td>
             <td>u es un vértice nuevo sin explorar</td>
-            <td><span style="color:var(--accent)">✓</span> — DFS(u) procesa todos sus descendientes antes de apilar u;
-              luego v se apila después</td>
-            <td><span style="color:var(--accent)">✓</span> — por I₁, u se apila antes que v, manteniendo el orden</td>
+            <td><span style="color:var(--accent)">✓</span> — DFS(u) procesa todos sus descendientes antes de apilar u; por tanto, los descendientes se apilan antes que su padre</td>
+            <td><span style="color:var(--accent)">✓</span> — por I₁, los descendientes quedan debajo de sus predecesores en la pila, preservando el orden topológico parcial</td>
             <td><span style="color:var(--accent)">✓</span> — u entra y sale de enProceso sin conflicto</td>
           </tr>
           <tr>

@@ -1077,14 +1077,14 @@
       <div class="two-col">
         <div>
           <div class="code-block">
-            <span class="cm">// ── Precondición P ──────────────────</span>
-            <span class="cm">// G = (V, E) es un DAG</span>
-            <span class="cm">// V ≠ ∅ (grafo no vacío)</span>
-
-            <span class="kw">INICIO</span>
-            visitado ← <span class="fn">∅</span> <span class="cm">// conjunto vacío</span>
-            pila ← <span class="fn">pila vacía</span>
-            enProceso ← <span class="fn">∅</span> <span class="cm">// camino activo DFS</span>
+            <span class="cm">// ── Precondición P ──────────────────</span><br>
+            <span class="cm">// G = (V, E) es un DAG</span><br>
+            <span class="cm">// V ≠ ∅ (grafo no vacío)</span><br>
+            <br>
+            <span class="kw">INICIO</span><br>
+            &nbsp;&nbsp;visitado ← <span class="fn">∅</span> <span class="cm">// conjunto vacío</span><br>
+            &nbsp;&nbsp;pila ← <span class="fn">pila vacía</span><br>
+            &nbsp;&nbsp;enProceso ← <span class="fn">∅</span> <span class="cm">// camino activo DFS</span>
           </div>
 
           <div style="margin-top:1.5rem">
@@ -1139,13 +1139,13 @@
 
       <div class="two-col">
         <div class="code-block" style="font-size:.76rem">
-          <span class="cm">// ── Algoritmo Principal ─────────────</span>
-          <span class="num"> 1:</span> <span class="kw">Precondición</span> P: G=(V,E) es un DAG, V≠∅
-          <span class="num"> 2:</span> visitado ← ∅
-          <span class="num"> 3:</span> pila ← pila vacía
-          <span class="num"> 4:</span> enProceso ← ∅
-          <span class="num"> 5:</span> <span class="cm">// I1 ∧ I2 ∧ I3 establecidos</span>
-          <span class="num"> 6:</span>
+          <span class="cm">// ── Algoritmo Principal ─────────────</span><br>
+          <span class="num"> 1:</span> <span class="kw">Precondición</span> P: G=(V,E) es un DAG, V≠∅<br>
+          <span class="num"> 2:</span> visitado ← ∅<br>
+          <span class="num"> 3:</span> pila ← pila vacía<br>
+          <span class="num"> 4:</span> enProceso ← ∅<br>
+          <span class="num"> 5:</span> <span class="cm">// I1 ∧ I2 ∧ I3 establecidos</span><br>
+          <span class="num"> 6:</span><br>
           <span class="hl"><span class="num"> 7:</span> <span class="kw">para</span> cada v ∈ V <span
               class="kw">hacer</span></span>
           <span class="hl"><span class="num"> 8:</span> &nbsp;&nbsp;<span class="kw">si</span> v ∉ visitado <span
@@ -1153,14 +1153,14 @@
           <span class="hl"><span class="num"> 9:</span> &nbsp;&nbsp;&nbsp;&nbsp;<span class="fn">DFS-Topologico</span>(v)</span>
           <span class="hl"><span class="num">10:</span> &nbsp;&nbsp;<span class="kw">fin si</span></span>
           <span class="hl"><span class="num">11:</span> <span class="kw">fin para</span></span>
-          <span class="num">12:</span>
-          <span class="num">13:</span> orden ← lista vacía
+          <span class="num">12:</span><br>
+          <span class="num">13:</span> orden ← lista vacía<br>
           <span class="hl2"><span class="num">14:</span> <span class="kw">mientras</span> pila ≠ ∅ <span
               class="kw">hacer</span></span>
           <span class="hl2"><span class="num">15:</span> &nbsp;&nbsp;orden.<span class="fn">agregar</span>(pila.<span
               class="fn">desapilar</span>())</span>
           <span class="hl2"><span class="num">16:</span> <span class="kw">fin mientras</span></span>
-          <span class="num">17:</span>
+          <span class="num">17:</span><br>
           <span class="num">18:</span> <span class="kw">Postcondición</span> Q: orden es un orden. topológico
         </div>
         <div>
@@ -1194,12 +1194,12 @@
 
       <div class="two-col">
         <div class="code-block">
-          <span class="kw">procedure</span> <span class="fn">DFS-Topologico</span>(v):
+          <span class="kw">procedure</span> <span class="fn">DFS-Topologico</span>(v):<br>
           <span class="hl"><span class="num"> 1:</span> &nbsp;&nbsp;visitado.<span class="fn">agregar</span>(v)</span>
           <span class="hl"><span class="num"> 2:</span> &nbsp;&nbsp;enProceso.<span class="fn">agregar</span>(v)</span>
-          <span class="num"> 3:</span>
-          <span class="num"> 4:</span> &nbsp;&nbsp;<span class="kw">para</span> cada vecino u <span class="kw">de</span> v:
-          <span class="num"> 5:</span>
+          <span class="num"> 3:</span><br>
+          <span class="num"> 4:</span> &nbsp;&nbsp;<span class="kw">para</span> cada vecino u <span class="kw">de</span> v:<br>
+          <span class="num"> 5:</span><br>
           <span class="hl2"><span class="num"> 6:</span> &nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">si</span> u ∈ enProceso <span
               class="kw">entonces</span></span>
           <span class="hl2"><span class="num"> 7:</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="str">error</span> "¡Ciclo detectado!" <span
@@ -1208,7 +1208,7 @@
           <span class="hl2"><span class="num"> 9:</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="fn">DFS-Topologico</span>(u) <span class="cm">//
               recursión</span></span>
           <span class="hl2"><span class="num">10:</span> &nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">fin si</span></span>
-          <span class="num">11:</span>
+          <span class="num">11:</span><br>
           <span class="hl"><span class="num">12:</span> &nbsp;&nbsp;enProceso.<span class="fn">remover</span>(v)</span>
           <span class="hl"><span class="num">13:</span> &nbsp;&nbsp;pila.<span class="fn">apilar</span>(v) <span class="cm">// v ya
               terminó</span></span>
